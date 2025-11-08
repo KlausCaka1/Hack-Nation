@@ -1,44 +1,48 @@
-import tkinter as tk
-from tkinter import filedialog, scrolledtext
+from flask import Flask, render_template, request
 import compare
+import gemenAI
+import markdown2  # for rendering markdown nicely
+
+app = Flask(__name__)
 
 
 # -----------------------------
-# GUI Setup
+# Reqeust to get matches for our CV and find strength and weakness
 # -----------------------------
-def upload_file():
-    file_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
-    if not file_path:
-        return
-    resume_text = compare.extract_text_from_pdf(file_path)
-    resume_keywords, top_matches = compare.compute_matches(resume_text)
+@app.route("/", methods=["GET", "POST"])
+def index():
+    resume_keywords = []
+    strengths_weaknesses_html = ""
+    matches = []
 
-    # Display results
-    result_text.delete(1.0, tk.END)
-    result_text.insert(tk.END, "=== Resume Keywords ===\n")
-    result_text.insert(tk.END, ", ".join(resume_keywords) + "\n\n")
-    result_text.insert(tk.END, "=== Top Matching Jobs ===\n\n")
+    if request.method == "POST":
+        file = request.files.get("resume_pdf")
+        if file:
+            # Extract resume text
+            resume_text = compare.extract_text_from_pdf(file)
 
-    for idx, row in enumerate(top_matches.itertuples(), start=1):
-        # Highlight overlapping keywords
-        overlap_keywords = set(resume_keywords).intersection(set(row.top_keywords))
+            # Compute keywords and top matches
+            resume_keywords, top_matches = compare.compute_matches(resume_text)
 
-        result_text.insert(tk.END, f"{idx}. {row.title} at {row.company_name}\n")
-        result_text.insert(tk.END, f"   TF-IDF similarity : {row.similarity:.3f}\n")
-        result_text.insert(tk.END, f"   Keyword overlap   : {row.keyword_overlap} ({', '.join(overlap_keywords)})\n")
-        result_text.insert(tk.END, f"   Combined score    : {row.combined_score:.3f}\n")
-        result_text.insert(tk.END, f"   Job keywords      : {', '.join(row.top_keywords)}\n")
-        result_text.insert(tk.END, "-" * 60 + "\n")
+            # Prepare prompt for GemenAI
+            prompt = ', '.join(
+                resume_keywords) + "\n" + resume_text + "\nCan you give strengths and weaknesses for this CV?"
+            strengths_weaknesses_md = gemenAI.getSolution(prompt)
 
-# Main window
-root = tk.Tk()
-root.title("Resume-Job Matcher")
-root.geometry("800x600")
+            # Convert markdown to HTML
+            strengths_weaknesses_html = markdown2.markdown(strengths_weaknesses_md)
 
-upload_btn = tk.Button(root, text="Upload Resume PDF", command=upload_file)
-upload_btn.pack(pady=10)
+            # Convert matches to list of dicts
+            matches = top_matches.to_dict(orient="records")
 
-result_text = scrolledtext.ScrolledText(root, width=100, height=30)
-result_text.pack(padx=10, pady=10)
+#rendering the templates in this case our main html
+    return render_template(
+        "main.html",
+        resume_keywords=resume_keywords,
+        strengths_weaknesses_html=strengths_weaknesses_html,
+        matches=matches
+    )
 
-root.mainloop()
+
+if __name__ == "__main__":
+    app.run(debug=True)

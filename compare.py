@@ -10,7 +10,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 # -----------------------------
 # 1. Read PDF file
 # -----------------------------
-
 def extract_text_from_pdf(pdf_path):
     text = ""
     with pdfplumber.open(pdf_path) as pdf:
@@ -31,19 +30,25 @@ try:
 except json.JSONDecodeError:
     with open(json_path, "r", encoding="utf-8") as f:
         jobs_data = json.load(f)
-
 jobs_df = pd.DataFrame(jobs_data)
-jobs_df = jobs_df.head(4000)
+jobs_df = jobs_df.head(1000)
+
+# -----------------------------
+# 4. Clearing the text and apply normalization from NLTK
+# -----------------------------
 jobs_df.columns = jobs_df.columns.str.strip().str.lower()
 jobs_df['clean_desc'] = jobs_df['description'].apply(filter_context.normalization)
 
-# Precompute TF-IDF matrix
+
+# -----------------------------
+# 5.Precompute TF-IDF matrix
+# -----------------------------
 job_texts = jobs_df['clean_desc'].tolist()
 vectorizer = TfidfVectorizer()
 job_tfidf_matrix = vectorizer.fit_transform(job_texts)
 
 # -----------------------------
-# 3. Rank Top Matches
+# 6. Rank Top Matches
 # -----------------------------
 def compute_matches(resume_text, top_n_keywords=20, top_n_jobs=50):
     resume_clean = filter_context.normalization(resume_text)

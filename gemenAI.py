@@ -11,7 +11,10 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 api_key = os.environ.get("GOOGLE_API_KEY")
 
 client = genai.Client(api_key=api_key)
-
+# -----------------------------
+# Get Solution from the model
+# -----------------------------
+# We are using retries cause sometime google API can fail so at least we dont give error with first try
 def getSolution(prompt, retires=5):
     for attempt in range(retires):
         try:
@@ -19,7 +22,9 @@ def getSolution(prompt, retires=5):
                 model="gemini-2.5-flash",
                 contents=prompt
             )
-            return response
+            generated_text = response.text
+
+            return generated_text
         except google.genai.errors.ServerError as e:
             if "503" in str(e):
                 wait = 2 ** attempt  # exponential backoff

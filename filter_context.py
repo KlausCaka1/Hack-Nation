@@ -17,7 +17,9 @@ lemmatizer = WordNetLemmatizer()
 stopwords = set(stopwords.words('english'))
 
 
-
+# -----------------------------
+# clearing the text and getting tokens
+# -----------------------------
 def preprocess(text):
     """Clean, tokenize, remove stopwords, and lemmatize"""
     text = str(text).lower()
@@ -26,6 +28,9 @@ def preprocess(text):
     tokens = [lemmatizer.lemmatize(t) for t in tokens if t not in stopwords]
     return ' '.join(tokens)
 
+# -----------------------------
+# Get each usage for each Tag
+# -----------------------------
 def get_tag(text, tagset='universal'):
     all_tags=['ADJ','ADP','ADV','CONJ','DET','NOUN','NUM','PRT','PRON','VERB','.','X']
     rows = []
@@ -42,12 +47,18 @@ def get_tag(text, tagset='universal'):
 
     return df[all_tags]
 
+# -----------------------------
+# Removing stopwords from text and apply text cleaner
+# -----------------------------
 def normalization(text):
     text = re.sub(r'[^a-zA-Z\s]', '', text.lower())
     text = text_cleaner.text_cleaner(text)
     tokens = [lemmatizer.lemmatize(word) for word in text.split() if word not in stopwords]
     return " ".join(tokens)
 
+# -----------------------------
+# Get Top 20 keywords
+# -----------------------------
 def GetTFIDF(text, top_n=20):
     if not text or len(text.strip()) == 0:
         return []
