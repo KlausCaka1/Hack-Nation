@@ -61,8 +61,9 @@
             <div class="card-body">
                 <h5 class="card-title">{{ job.title }} at {{ job.company_name }}</h5>
                 <p class="card-text">
-                    TF-IDF similarity: {{ job.similarity | round(3) }}<br>
+                    TF-IDF similarity: {{ job.similarity_tfidf | round(3) }}<br>
                     Keyword overlap: {{ job.keyword_overlap }}<br>
+                    Semantic similarity: {{ job. similarity_semantic | round(3) }} </br>
                     Combined score: {{ job.combined_score | round(3) }}
                 </p>
                 <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#details{{ loop.index }}" aria-expanded="false">
