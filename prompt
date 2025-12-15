@@ -1,0 +1,69 @@
+Klaus Caka Developer
+klauscaka@gmail.com • https://www.linkedin.com/in/klaus-caka-962318140/  Albania - Tirana
++355698364705 • https://www.github.com/klauscaka1
+
+SUMMARY
+
+Over my years as Software developer I had the chance to experience many challenges and to be on many difficult scenarios, coming out on top with my determination. Some of them are, one of our project was hacked and I had to provide solutions and find fixes in environment where testing was not able for 1 month. I also have my fair share on crunching the time and making sure that the delivery is within the next day or even worst the deployment will be ready before the presentation on the client which can be on the next 2 to 3 hours. But my resilience was something that I had to build on this difficulty time cause my motto is that “ nothing is impossible unless you don’t try it”. The solutions I have given over the years include my two most favorite frameworks, React and Angular on the Front-end side. On the Back-end side I would say Node.js for its freedom of writing and Django for its impeccable security to sensitive data of our users.
+
+EXPERIENCE
+
+MoveoGroup (Self-Employed) – Software Developer
+https://www.moveo.group/
+Jan 2022 – Present
+Created proprietary solutions for SharePoint and Microsoft 365 using React, SPFx, Power Automate, and TypeScript, enhancing workflow automation and business efficiency.
+Collaborated cross-functionally with different team members and allow to deliver tasks on time and with high efficiency such as tasks is done 1 to 2 days before the deadline.
+Deliver version releases from 0.1 to 2.49 on one of our project and making great jumps on the number of brands from 3 to 8 which all are different client and different cities
+Performed technical troubleshooting and incident resolution, maintaining system integrity even on highly pressure situation such as the deadline for tomorrow or close by meeting in 2 hours
+Contributed on brainstorm for integration of physical components working with the software such as scanners and card readers for day to day transactions and helping juniors if they are stuck on some issues related to complex problems
+Freelance (Self-Employed) – Software Developer
+https://www.freelancer.com/
+Feb 2021 – Jan 2022
+Developed custom front-end solutions using Typescripts, HTML, CSS, SPF x, and React, adapting to diverse client requirements.
+Automated repetitive tasks and integrated Power Platform workflows, increasing productivity and minimizing manual effort.
+Applied responsive design with React Native and Ionic to deliver optimal user experiences across devices within 1 to 2 hours maximum
+Administered and maintained SharePoint Online sites, quickly resolving technical issues within 1 hour and ensuring that Site was back online by that time
+Built advanced spatial features using Google Maps and Leaflet for dynamic, interactive map interfaces which are fast within seconds and having a threshold of 5 seconds maximum
+Embraced continuous learning by integrating on old projects new way of management of statement and data by using Redux and GraphQL.
+Rash – Fullstack Developer
+https://www.rash.al/en/
+Aug 2019 – Feb 2021
+Built and maintained responsive web UI with Material UI, Primeng, and always closely communicating with designers throw Figma that everything is pixel perfection.
+Giving my feedback on design issues if something is wrong or instruction on what functions a certain library can deliver to the clients demands so we can achieve a middle ground.
+Conducted code reviews, performance optimizations, and unit testing (Jest, Cypress) to maintain high-quality delivery and lowering the testing time for new features from 1 hours to couple of minutes.
+Design optimal solution using Redux for state management and more than 100+ API calls through our project.
+Resolved production issues and implemented rapid  hotfixes to maintain continues of work and no problem with regression on our product.
+
+
+
+
+EDUCATION
+Master's in Software Engineering, 03.2025 – 02.2027 | Potsdam, Germany
+University of Europe for Applied Sciences
+
+Bachelor's in Computer Science, 09.2020 – 06.2024 | Tirana, Albania
+University of Tirana
+
+
+SKILLS
+
+Frontend Development: React.js, React Native, JavaScript (ES6+), TypeScript, HTML5, CSS3, SASS, Responsive Design, Accessibility, GraphQL, Redux, Angular
+Frameworks & Libraries: SharePoint Framework (SPF x), Django, MatLab, Node.js
+Automation & Integration: Microsoft Power Automate, REST APIs, Workflow Automation, Agile Development
+Version Control & CI/CD: Git, GitFlow, DevOps (basic), CI/CD Pipelines
+Architecture & Tools: Software Architecture, Design Patterns, CAML, Jira, AI-assisted Tools (e.g., Cursor)
+Additional Technologies: Java, Tailwind
+
+
+ Projects
+
+Encrypting (Python)
+	Build an application that allows the user to encrypt his text using 4 different methods which include: Affine Chiper,Monoalfabetic 	chipering, DES and DES-CFB. It will give you also let you test and try to enchiper those encrypted text.
+
+SkillSense(Python, Javascript, HTML, Flask, NLTK, Google API, AI Models)
+	This app was an hackathon challenge from hack-nation which was a challenge to build and app which can identify and 	analysis unstructured data and allow the user to know for which job he is best fit but also show his strength and weakeness 	and area he need to Improve.
+
+Find Solution(Python, NLTK, Google API, AI Models)
+Building an app that allow taking screenshots and with NLKT we extract the keywords and frequency of words used creating a summary using gemenAPI which will help us to have a more robust way to interpret any code challenge and then feed that to our model which will give us the solution for the code challenge. The accuracy we were reach with our model was 85% success rate.
+
+"can you add more keywords and such as solution, software, team, platform development"

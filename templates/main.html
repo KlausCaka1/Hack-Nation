@@ -8,8 +8,10 @@
         #loadingOverlay {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: rgba(255, 255, 255, 0.7);
             z-index: 1050;
             text-align: center;
@@ -17,9 +19,22 @@
 
         #loadingOverlay .spinner-container {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
         }
+
+        .container-ai {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container-ai__button {
+            width: 145px;
+            align-self: center;
+            margin-top: 1rem;
+        }
+
     </style>
 </head>
 <body class="p-4">
@@ -35,9 +50,31 @@
     </div>
 </div>
 
-<form id="uploadForm" method="POST" enctype="multipart/form-data" class="mb-4">
+
+<form id="uploadForm" action="/match-resume" method="POST" enctype="multipart/form-data" class="mb-4">
     <input type="file" name="resume_pdf" accept=".pdf" required>
     <button type="submit" class="btn btn-primary">Upload Resume</button>
+</form>
+
+<form id="aiForm" method="POST" action="/build-resume-ai" enctype="multipart/form-data">
+    <div class="container-ai">
+        <h3>Build Resume with AI</h3>
+
+        <input type="file" name="resume_pdf" accept=".pdf" required class="mb-2">
+
+        <textarea
+            id="prompt-ai"
+            name="ai_prompt"
+            rows="4"
+            class="form-control mb-3"
+            placeholder="Describe the role or improvements you want..."
+            required>
+        </textarea>
+
+        <button class="btn btn-primary container-ai__button" type="submit">
+            Submit Prompt
+        </button>
+    </div>
 </form>
 
 {% if resume_keywords %}
@@ -66,7 +103,8 @@
                     Semantic similarity: {{ job. similarity_semantic | round(3) }} </br>
                     Combined score: {{ job.combined_score | round(3) }}
                 </p>
-                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#details{{ loop.index }}" aria-expanded="false">
+                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#details{{ loop.index }}" aria-expanded="false">
                     Show Details
                 </button>
                 <div class="collapse mt-2" id="details{{ loop.index }}">
@@ -84,7 +122,7 @@
 
 <script>
     // Show full-page spinner on form submit
-    document.getElementById('uploadForm').addEventListener('submit', function() {
+    document.getElementById('uploadForm').addEventListener('submit', function () {
         document.getElementById('loadingOverlay').style.display = 'block';
     });
 </script>
