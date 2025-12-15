@@ -45,6 +45,17 @@ def index():
     )
 
 
+@app.route("/", methods=["GET"])
+def home():
+    # Just render main.html with empty defaults
+    return render_template(
+        "main.html",
+        resume_keywords=[],
+        strengths_weaknesses_html="",
+        matches=[]
+    )
+
+
 @app.route("/build-resume-ai", methods=["POST"])
 def build_resume_ai():
     ai_result_html = ""
