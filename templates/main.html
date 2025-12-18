@@ -39,83 +39,103 @@
 </head>
 <body class="p-4">
 
-<h1>Resume-Job Matcher</h1>
 
-<div id="loadingOverlay">
-    <div class="spinner-container">
-        <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <div class="mt-2">Processing Resume...</div>
-    </div>
-</div>
-
-
-<form id="uploadForm" action="/match-resume" method="POST" enctype="multipart/form-data" class="mb-4">
-    <input type="file" name="resume_pdf" accept=".pdf" required>
-    <button type="submit" class="btn btn-primary">Upload Resume</button>
-</form>
-
-<form id="aiForm" method="POST" action="/build-resume-ai" enctype="multipart/form-data">
-    <div class="container-ai">
-        <h3>Build Resume with AI</h3>
-
-        <input type="file" name="resume_pdf" accept=".pdf" required class="mb-2">
-
-        <textarea
-            id="prompt-ai"
-            name="ai_prompt"
-            rows="4"
-            class="form-control mb-3"
-            placeholder="Describe the role or improvements you want..."
-            required>
-        </textarea>
-
-        <button class="btn btn-primary container-ai__button" type="submit">
-            Submit Prompt
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#checker" type="button">
+            Resume Checker
         </button>
-    </div>
-</form>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#create" type="button">
+            Create Resume
+        </button>
+    </li>
+</ul>
 
-{% if resume_keywords %}
-<h3>Resume Keywords:</h3>
-<p>{{ resume_keywords | join(', ') }}</p>
-{% endif %}
 
-{% if strengths_weaknesses_html %}
-<h3>Candidate Insights (Strengths / Areas to Improve):</h3>
-<div class="border p-3 mb-4" style="background-color:#f8f9fa;">
-    {{ strengths_weaknesses_html | safe }}
-</div>
-{% endif %}
+<div class="tab-content mt-3">
+    <div class="tab-pane fade show active" id="checker">
+        <h1>Resume-Job Matcher</h1>
 
-{% if matches %}
-<h3 class="mt-4">Top Matching Jobs:</h3>
-<div class="row mt-2">
-    {% for job in matches %}
-    <div class="col-md-4">
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ job.title }} at {{ job.company_name }}</h5>
-                <p class="card-text">
-                    TF-IDF similarity: {{ job.similarity_tfidf | round(3) }}<br>
-                    Keyword overlap: {{ job.keyword_overlap }}<br>
-                    Semantic similarity: {{ job. similarity_semantic | round(3) }} </br>
-                    Combined score: {{ job.combined_score | round(3) }}
-                </p>
-                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#details{{ loop.index }}" aria-expanded="false">
-                    Show Details
-                </button>
-                <div class="collapse mt-2" id="details{{ loop.index }}">
-                    <strong>Job Keywords:</strong> {{ job.top_keywords | join(', ') }}
+        <div id="loadingOverlay">
+            <div class="spinner-container">
+                <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
+                <div class="mt-2">Processing Resume...</div>
             </div>
         </div>
+
+        <form id="uploadForm" action="/match-resume" method="POST" enctype="multipart/form-data" class="mb-4">
+            <input type="file" name="resume_pdf" accept=".pdf" required>
+            <button type="submit" class="btn btn-primary">Upload Resume</button>
+        </form>
+
+        {% if resume_keywords %}
+        <h3>Resume Keywords:</h3>
+        <p>{{ resume_keywords | join(', ') }}</p>
+        {% endif %}
+
+        {% if strengths_weaknesses_html %}
+        <h3>Candidate Insights (Strengths / Areas to Improve):</h3>
+        <div class="border p-3 mb-4" style="background-color:#f8f9fa;">
+            {{ strengths_weaknesses_html | safe }}
+        </div>
+        {% endif %}
+
+        {% if matches %}
+        <h3 class="mt-4">Top Matching Jobs:</h3>
+        <div class="row mt-2">
+            {% for job in matches %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }} at {{ job.company_name }}</h5>
+                        <p class="card-text">
+                            TF-IDF similarity: {{ job.similarity_tfidf | round(3) }}<br>
+                            Keyword overlap: {{ job.keyword_overlap }}<br>
+                            Semantic similarity: {{ job. similarity_semantic | round(3) }} </br>
+                            Combined score: {{ job.combined_score | round(3) }}
+                        </p>
+                        <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#details{{ loop.index }}" aria-expanded="false">
+                            Show Details
+                        </button>
+                        <div class="collapse mt-2" id="details{{ loop.index }}">
+                            <strong>Job Keywords:</strong> {{ job.top_keywords | join(', ') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
-    {% endfor %}
+    <div class="tab-pane fade" id="create">
+        <form id="aiForm" method="POST" action="/build-resume-ai" enctype="multipart/form-data">
+            <div class="container-ai">
+                <h3>Build Resume with AI</h3>
+
+                <input type="file" name="resume_pdf" accept=".pdf" required class="mb-2">
+
+                <textarea
+                        id="prompt-ai"
+                        name="ai_prompt"
+                        rows="4"
+                        class="form-control mb-3"
+                        placeholder="Describe the role or improvements you want..."
+                        required>
+        </textarea>
+
+                <button class="btn btn-primary container-ai__button" type="submit">
+                    Submit Prompt
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
-{% endif %}
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
