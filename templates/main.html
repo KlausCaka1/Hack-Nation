@@ -24,6 +24,15 @@
             transform: translate(-50%, -50%);
         }
 
+        .container {
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+        }
+
         .container-ai {
             display: flex;
             flex-direction: column;
@@ -53,22 +62,39 @@
     </li>
 </ul>
 
+<div id="loadingOverlay">
+    <div class="spinner-container">
+        <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <div class="mt-2">Processing Resume...</div>
+    </div>
+</div>
 
 <div class="tab-content mt-3">
     <div class="tab-pane fade show active" id="checker">
-        <h1>Resume-Job Matcher</h1>
+        <h1 style="text-align: center">Resume-Job Matcher</h1>
 
-        <div id="loadingOverlay">
-            <div class="spinner-container">
-                <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="mt-2">Processing Resume...</div>
-            </div>
-        </div>
+        <form id="uploadForm" action="/match-resume" method="POST" enctype="multipart/form-data" class="mb-4 container">
 
-        <form id="uploadForm" action="/match-resume" method="POST" enctype="multipart/form-data" class="mb-4">
-            <input type="file" name="resume_pdf" accept=".pdf" required>
+            <input
+                    type="file"
+                    id="resume_pdf"
+                    name="resume_pdf"
+                    accept=".pdf"
+                    class="d-none"
+                    required
+            >
+
+            <!-- Upload button with icon -->
+            <label for="resume_pdf" class="btn btn-outline-primary me-2">
+                <i class="bi bi-file-earmark-pdf"></i> Choose PDF
+            </label>
+
+            <!-- File name preview -->
+            <span id="file-name" class="text-muted">No file selected</span>
+
+            <br>
             <button type="submit" class="btn btn-primary">Upload Resume</button>
         </form>
 
@@ -113,11 +139,24 @@
         {% endif %}
     </div>
     <div class="tab-pane fade" id="create">
-        <form id="aiForm" method="POST" action="/build-resume-ai" enctype="multipart/form-data">
-            <div class="container-ai">
-                <h3>Build Resume with AI</h3>
+         <h1 style="text-align: center">Build Resume with AI</h1>
+        <form id="aiForm" method="POST" class="mb-4 container" action="/build-resume-ai" enctype="multipart/form-data">
+                <input
+                        type="file"
+                        id="ai_resume_pdf"
+                        name="ai_resume_pdf"
+                        accept=".pdf"
+                        class="d-none"
+                        required
+                >
 
-                <input type="file" name="resume_pdf" accept=".pdf" required class="mb-2">
+                <!-- Upload button with icon -->
+                <label for="ai_resume_pdf" class="btn btn-outline-primary me-2">
+                    <i class="bi bi-file-earmark-pdf"></i> Choose PDF
+                </label>
+
+                <!-- File name preview -->
+                <span id="ai_file-name" class="text-muted">No file selected</span>
 
                 <textarea
                         id="prompt-ai"
@@ -126,12 +165,11 @@
                         class="form-control mb-3"
                         placeholder="Describe the role or improvements you want..."
                         required>
-        </textarea>
+                </textarea>
 
                 <button class="btn btn-primary container-ai__button" type="submit">
                     Submit Prompt
                 </button>
-            </div>
         </form>
     </div>
 </div>
@@ -145,6 +183,33 @@
     document.getElementById('uploadForm').addEventListener('submit', function () {
         document.getElementById('loadingOverlay').style.display = 'block';
     });
+
+    document.getElementById('aiForm').addEventListener('submit', function () {
+        document.getElementById('loadingOverlay').style.display = 'block';
+    });
+
+    const fileInput = document.getElementById('resume_pdf');
+    const fileName = document.getElementById('file-name');
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+            fileName.textContent = fileInput.files[0].name;
+        } else {
+            fileName.textContent = 'No file selected';
+        }
+    });
+
+    const aiFileInput = document.getElementById('ai_resume_pdf');
+    const aiFileName = document.getElementById('ai_file-name');
+
+    aiFileInput.addEventListener('change', () => {
+        if (aiFileInput.files.length) {
+            aiFileName.textContent = aiFileInput.files[0].name;
+        } else {
+            aiFileName.textContent = 'No file selected';
+        }
+    });
+
 </script>
 </body>
 </html>
