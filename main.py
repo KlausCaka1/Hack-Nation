@@ -60,7 +60,7 @@ def home():
 def build_resume_ai():
     ai_result_html = ""
 
-    file = request.files.get("resume_pdf")
+    file = request.files.get("ai_resume_pdf")
     ai_prompt = request.form.get("ai_prompt")
 
     if file and ai_prompt:
